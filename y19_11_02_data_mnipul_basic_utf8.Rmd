@@ -1,0 +1,102 @@
+---
+title: "манипуляции c данными используя базовые средства R"
+output:
+  word_document: default
+  html_notebook: default
+  html_document:
+    df_print: paged
+---
+
+интерактивный notebook создан в RStudio
+
+File->New File -> R Notebook
+
+Для корректной конвертации в другие форматы файл должен быть сохранет в кодировке UTF-8.
+
+File-> Save With Encoding -> UTF-8
+
+
+
+
+## Векторы
+
+
+
+### Пример 1
+
+Цены на единицу услуги ЖКХ варируются от сезона к сезону
+
+получить:
+
+* таблицу соответсвия месяца  и сезона 
+
+* добавить в таблицу соответсвующий месяцу тариф
+
+
+
+```{r}
+season <- c("зима","весна","лето", "осень")
+fare <- c(100,75,30,75)
+n_month <- seq(1,12)
+```
+
+```{r}
+(shifted_seasons=rep(season,each=3) )
+(month_seasons <- c(shifted_seasons[-1],shifted_seasons[1]))
+(month_seasons <- shifted_seasons[c(2:12,1)])
+seq(from=0, along=shifted_seasons)
+month.abb[2]
+```
+
+
+фунция match ищет индекс указанного значения в векторе
+
+```{r}
+fare[match("весна",season)]
+```
+
+
+```{r,warning=FALSE}
+library(tibble)
+library(knitr)
+```
+
+Делаем таблицу
+
+
+```{r}
+season_table=tibble(season=month_seasons)
+season_table$mon_abb <- month.abb
+kable(season_table,align="l",caption="сезоны")
+```
+
+```{r}
+season_table["fare"] <- fare[match(season_table$season,season)]
+season_table
+```
+
+
+```{r}
+match(57,1:10,nomatch = 0)
+match(6,4:10,nomatch = 0)
+```
+### cumsum() и  diff()
+
+
+
+
+```{r}
+counter_month <- c(50,50,80,101,50,50,50,50,80,101,50,50  )
+(counter_month_abs <- 1000+cumsum(x = counter_month))
+(counter_month1 <- diff(c(1000,counter_month_abs)) )
+all(identical(counter_month, counter_month1))
+```
+
+Добавляе  в таблицу объем потребления и считаем стоимость
+
+```{r}
+season_table$amount <-  counter_month
+season_table$cost <-  season_table$fare*season_table$amount
+season_table
+```
+
