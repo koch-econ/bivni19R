@@ -3,7 +3,8 @@
 
 
 
-### Занятие 02 ноября 
+### Занятие 19 октября 
 
 
-исходны файл [y19_10_26_random_utf8.Rmd](y19_10_26_random_utf8.Rmd)
+исходный  файл [y19_10_26_random_utf8.Rmd](y19_10_26_random_utf8.Rmd)
+html  файл [y19_10_26_random_utf8.html](y19_10_26_random_utf8.html)
